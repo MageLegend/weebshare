@@ -18,3 +18,8 @@ You can find the whole list here: https://pastebin.com/raw/iXRg3rKq
 # Why are you creating something created (and recreated) many times?
 Mainly because we have something called "vanity" urls. What we mean by this is, basically, we have an arsenal of domains you can use. Instead of just something like `bit.ly` or `imgur.com` you can use `*.is-my.world` or `*.is-tra.sh` or `omae-wa-mou.shindei.ru`
 It's also compatible with ShareX so you can upload screenshots directly taken with ShareX to it.
+
+# GAAAAAAAAAAAAAH! I CANNOT UNDERSTAAND! HAALP PLZ!
+First of all, calm down. Are you calm? kthx. 
+
+[This](https://youtu.be/qjRKD8xpMKU) little video will help you understand file-bin 
