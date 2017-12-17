@@ -77,45 +77,6 @@ namespace baka.Controllers
             }
         }
 
-
-        /// TEMP--UPDATE--CODE
-
-        [Route("/apply-update")]
-        public async Task<IActionResult> ApplyUpdate()
-        {
-            AuthModel model = Authorize("su_full");
-
-            if (!model.Authorized)
-                return Unauthorized();
-
-            using (var context = new BakaContext())
-            {
-                await context.Users.ForEachAsync(async (u) =>
-                {
-                    string o_name = u.Name;
-                    if (o_name.Contains(":"))
-                    {
-                        string[] names = o_name.Split(':');
-                        if (names.Length == 2)
-                        {
-                            string new_name = names[1];
-                            u.Name = new_name;
-                            await context.SaveChangesAsync();
-                        }
-                    }
-                });
-            }
-
-            return Json(new
-            {
-                success = "unknown",
-                msg = "DB updating has started",
-                code = 200
-            });
-        }
-
-        /// TEMP--UPDATE--CODE
-
         [Route("create-user")]
         [AcceptVerbs("POST")]
         public async Task<IActionResult> CreateUser([FromBody] NewUserModel details)
