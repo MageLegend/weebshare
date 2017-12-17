@@ -30,7 +30,7 @@ namespace baka
 
         public static TransferUtility S3Utility { get; set; }
 
-        public static void Initliaze()
+        public static void Initialize()
         {
             Config = ConfigModel.GetConfig(ConfigFileName);
 
@@ -47,7 +47,7 @@ namespace baka
             InitliazeDb().GetAwaiter().GetResult();
         }
 
-        private static async Task InitliazeDb()
+        private static async Task InitializeDb()
         {
             using (var context = new BakaContext())
             {
