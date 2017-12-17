@@ -50,12 +50,12 @@ namespace baka.Controllers
                         deleted = return_usr.Deleted,
                         disabled = return_usr.Disabled,
                         account_type = return_usr.AccountType,
-                        links = return_usr.Links,
-                        files = return_usr.Files,
+                        links = return_usr.Links.ToList(),
+                        files = return_usr.Files.ToList(),
                     });
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Response.StatusCode = 500;
 
@@ -196,8 +196,8 @@ namespace baka.Controllers
                         deleted = return_usr.Deleted,
                         disabled = return_usr.Disabled,
                         account_type = return_usr.AccountType,
-                        links = return_usr.Links,
-                        files = return_usr.Files,
+                        links = return_usr.Links.ToList(),
+                        files = return_usr.Files.ToList(),
                     });
                 }
             }

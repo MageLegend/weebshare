@@ -92,7 +92,8 @@ namespace baka.Controllers
 
                 if (model.User.InitialIp == null)
                 {
-                    model.User.InitialIp = GetIp();
+                    string ip = GetIp();
+                    model.User.InitialIp = ip;
                 }
 
                 await context.SaveChangesAsync();

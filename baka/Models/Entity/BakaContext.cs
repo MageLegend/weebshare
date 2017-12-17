@@ -36,11 +36,17 @@ namespace baka.Models.Entity
 
         public int Id { get; set; }
 
+        [JsonIgnore]
         public ICollection<BakaFile> Files { get; set; }
 
+        [JsonIgnore]
         public ICollection<BakaLink> Links { get; set; }
 
+        [JsonIgnore]
         public DateTime Timestamp { get; set; }
+
+        [JsonProperty("timestamp")]
+        public string Epoch { get { return Timestamp.ToFileTimeUtc().ToString(); } }
 
         public string Token { get; set; }
 
@@ -59,27 +65,47 @@ namespace baka.Models.Entity
 
     public class BakaFile
     {
+        [JsonProperty("backend_file_id")]
         public string BackendFileId { get; set; }
 
+        [JsonProperty("db_id")]
         public int Id { get; set; }
 
+        [JsonProperty("result_code")]
         public string ExternalId { get; set; }
 
+        [JsonProperty("file_name")]
         public string Filename { get; set; }
 
+        [JsonProperty("ext")]
         public string Extension { get; set; }
 
+        [JsonProperty("ip")]
         public string IpUploadedFrom { get; set; }
 
+        [JsonProperty("deleted")]
         public bool Deleted { get; set; }
 
+        [JsonProperty("uploader")]
+        [JsonIgnore]
         public BakaUser Uploader { get; set; }
 
+        [JsonProperty("uploader_id")]
+        [NotMapped]
+        public int UploaderId { get { return Uploader.Id; } }
+
+        [JsonIgnore]
         public DateTime Timestamp { get; set; }
 
+        [JsonProperty("file_size")]
         public double FileSizeMB { get; set; }
 
+        [JsonProperty("timestamp")]
         [NotMapped]
+        public string Epoch { get { return Timestamp.ToFileTimeUtc().ToString(); } }
+
+        [NotMapped]
+        [JsonProperty("content_type")]
         public string ContentType
         {
             get
@@ -91,18 +117,34 @@ namespace baka.Models.Entity
 
     public class BakaLink
     {
+        [JsonProperty("dest")]
         public string Destination { get; set; }
 
+        [JsonProperty("ip")]
         public string UploadedFromIp { get; set; }
 
+        [JsonProperty("deleted")]
         public bool Deleted { get; set; }
 
+        [JsonProperty("external_id")]
         public string ExternalId { get; set; }
 
+        [JsonProperty("db_id")]
         public int Id { get; set; }
 
+        [JsonProperty("uploader")]
+        [JsonIgnore]
         public BakaUser Uploader { get; set; }
 
+        [JsonProperty("uploader_id")]
+        [NotMapped]
+        public int UploaderId { get { return Uploader.Id; } }
+
+        [JsonIgnore]
         public DateTime Timestamp { get; set; }
+
+        [JsonProperty("timestamp")]
+        [NotMapped]
+        public string Epoch { get { return Timestamp.ToFileTimeUtc().ToString(); } }
     }
 }
