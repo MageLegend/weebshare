@@ -32,7 +32,7 @@ namespace baka.Controllers
             {
                 using (var context = new BakaContext())
                 {
-                    BakaUser return_usr = await context.Users.FirstOrDefaultAsync(x => x.Email == email);
+                    BakaUser return_usr = await context.Users.Include(x => x.Links).Include(x => x.Files).FirstOrDefaultAsync(x => x.Email == email);
 
                     if (return_usr == null)
                         return NotFound(new { success = false, error = "404 Not Found", code = 404 });
@@ -217,7 +217,7 @@ namespace baka.Controllers
 
                 using (var context = new BakaContext())
                 {
-                    BakaUser return_usr = await context.Users.FirstOrDefaultAsync(x => x.Token == token);
+                    BakaUser return_usr = await context.Users.Include(x => x.Links).Include(x => x.Files).FirstOrDefaultAsync(x => x.Token == token);
 
                     if (return_usr == null)
                         return NotFound(new { success = false, error = "404 Not Found", code = 404 });
