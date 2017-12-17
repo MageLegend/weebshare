@@ -77,7 +77,7 @@ namespace baka.Controllers
             }
         }
 
-        [Route("from-email/{id}")]
+        [Route("from-id/{id}")]
         public async Task<IActionResult> GetUserFromId(int id)
         {
             AuthModel model = Authorize("su_full");
