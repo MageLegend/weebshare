@@ -1,0 +1,10 @@
+{
+  "Name": "file-bin",
+  "DestinationType": "ImageUploader, TextUploader, FileUploader",
+  "RequestURL": "http://bin.kibii.moe/api/upload",
+  "FileFormName": "file",
+  "Headers": {
+    "baka_token": "YOUR_TOKEN_HERE"
+  },
+  "URL": "http://b1nzy.rate-limited.me/$json:full_result_id$"
+}

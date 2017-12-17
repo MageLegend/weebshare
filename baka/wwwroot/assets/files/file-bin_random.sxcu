@@ -1,0 +1,9 @@
+{
+  "Name": "file-bin(random)",
+  "DestinationType": "ImageUploader, TextUploader, FileUploader",
+  "RequestURL": "http://bin.kibii.moe/api/upload",
+  "FileFormName": "file",
+  "Headers": {
+    "baka_token": "TOKEN_HERE"
+  },
+  "URL": "http://$random:bin.moe|bin.moe|bin.moe$/$json:full_result_id$"
