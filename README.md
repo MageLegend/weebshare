@@ -22,4 +22,4 @@ It's also compatible with ShareX so you can upload screenshots directly taken wi
 # GAAAAAAAAAAAAAH! I CANNOT UNDERSTAAND! HAALP PLZ!
 First of all, calm down. Are you calm? kthx. 
 
-[This]https://youtu.be/qjRKD8xpMKU little video will help you understand file-bin 
+[This](https://youtu.be/qjRKD8xpMKU) little video will help you understand file-bin 
