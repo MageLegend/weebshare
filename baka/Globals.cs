@@ -44,7 +44,7 @@ namespace baka
 
             Random = new Random();
 
-            InitliazeDb().GetAwaiter().GetResult();
+            InitializeDb().GetAwaiter().GetResult();
         }
 
         private static async Task InitializeDb()
