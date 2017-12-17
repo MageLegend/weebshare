@@ -55,7 +55,7 @@ namespace baka.Controllers
                     });
                 }
             }
-            catch
+            catch(Exception e)
             {
                 Response.StatusCode = 500;
 
