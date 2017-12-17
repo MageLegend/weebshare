@@ -78,7 +78,7 @@ namespace baka.Controllers
         }
 
         [Route("from-email/{id}")]
-        public async Task<IActionResult> GetUserFromId(int email)
+        public async Task<IActionResult> GetUserFromId(int id)
         {
             AuthModel model = Authorize("su_full");
             if (!model.Authorized)
