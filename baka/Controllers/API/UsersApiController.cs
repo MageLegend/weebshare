@@ -70,7 +70,7 @@ namespace baka.Controllers
                     upload_limit = return_usr.UploadLimitMB,
                 });
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Response.StatusCode = 500;
 
@@ -279,7 +279,12 @@ namespace baka.Controllers
                     BakaUser return_usr = await context.Users.FirstOrDefaultAsync(x => x.Token == token);
 
                     if (return_usr == null)
-                        return NotFound(new { success = false, error = "404 Not Found", code = 404 });
+                        return NotFound(new
+                        {
+                            success = false,
+                            error = "404 Not Found",
+                            code = 404
+                        });
 
                     return_usr.Token = Globals.GenerateToken(return_usr);
 
