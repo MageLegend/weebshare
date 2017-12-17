@@ -12,6 +12,110 @@ namespace baka.Controllers
     [Route("/api/users")]
     public class UsersApiController : BakaController
     {
+        [Route("from-email/{email}")]
+        public async Task<IActionResult> GetUserFromEmail(string email)
+        {
+            AuthModel model = Authorize("su_full");
+            if (!model.Authorized)
+            {
+                Response.StatusCode = 401;
+
+                return Json(new
+                {
+                    success = false,
+                    error = model.Reason,
+                    code = 401
+                });
+            }
+
+            try
+            {
+                using (var context = new BakaContext())
+                {
+                    BakaUser return_usr = await context.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+                    if (return_usr == null)
+                        return NotFound(new { success = false, error = "404 Not Found", code = 404 });
+
+                    return Json(new
+                    {
+                        id = return_usr.Id,
+                        username = return_usr.Username,
+                        name = return_usr.Name,
+                        email = return_usr.Email,
+                        upload_limit = return_usr.UploadLimitMB,
+                        initial_ip = return_usr.InitialIp,
+                        timestamp = return_usr.Timestamp.ToFileTimeUtc().ToString(),
+                        token = return_usr.Token,
+                        deleted = return_usr.Deleted,
+                        disabled = return_usr.Disabled,
+                        account_type = return_usr.AccountType,
+                        links = return_usr.Links,
+                        files = return_usr.Files,
+                    });
+                }
+            }
+            catch
+            {
+                Response.StatusCode = 500;
+
+                if (!Globals.Config.IsDebug)
+                    return Json(new
+                    {
+                        success = false,
+                        error = "500 Internal Server Error",
+                        code = 500
+                    });
+
+                return Json(new
+                {
+                    success = false,
+                    error = "500 Internal Server Error",
+                    code = 500,
+                    exception = e.ToString(),
+                });
+            }
+        }
+
+
+        /// TEMP--UPDATE--CODE
+
+        [Route("/apply-update")]
+        public async Task<IActionResult> ApplyUpdate()
+        {
+            AuthModel model = Authorize("su_full");
+
+            if (!model.Authorized)
+                return Unauthorized();
+
+            using (var context = new BakaContext())
+            {
+                await context.Users.ForEachAsync(async (u) =>
+                {
+                    string o_name = u.Name;
+                    if (o_name.Contains(":"))
+                    {
+                        string[] names = o_name.Split(':');
+                        if (names.Length == 2)
+                        {
+                            string new_name = names[1];
+                            u.Name = new_name;
+                            await context.SaveChangesAsync();
+                        }
+                    }
+                });
+            }
+
+            return Json(new
+            {
+                success = "unknown",
+                msg = "DB updating has started",
+                code = 200
+            });
+        }
+
+        /// TEMP--UPDATE--CODE
+
         [Route("create-user")]
         [AcceptVerbs("POST")]
         public async Task<IActionResult> CreateUser([FromBody] NewUserModel details)
