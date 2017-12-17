@@ -77,6 +77,71 @@ namespace baka.Controllers
             }
         }
 
+        [Route("from-email/{id}")]
+        public async Task<IActionResult> GetUserFromId(int email)
+        {
+            AuthModel model = Authorize("su_full");
+            if (!model.Authorized)
+            {
+                Response.StatusCode = 401;
+
+                return Json(new
+                {
+                    success = false,
+                    error = model.Reason,
+                    code = 401
+                });
+            }
+
+            try
+            {
+                using (var context = new BakaContext())
+                {
+                    BakaUser return_usr = await context.Users.Include(x => x.Links).Include(x => x.Files).FirstOrDefaultAsync(x => x.Id == id);
+
+                    if (return_usr == null)
+                        return NotFound(new { success = false, error = "404 Not Found", code = 404 });
+
+                    return Json(new
+                    {
+                        id = return_usr.Id,
+                        username = return_usr.Username,
+                        name = return_usr.Name,
+                        email = return_usr.Email,
+                        upload_limit = return_usr.UploadLimitMB,
+                        initial_ip = return_usr.InitialIp,
+                        timestamp = return_usr.Timestamp.ToFileTimeUtc().ToString(),
+                        token = return_usr.Token,
+                        deleted = return_usr.Deleted,
+                        disabled = return_usr.Disabled,
+                        account_type = return_usr.AccountType,
+                        links = return_usr.Links.ToList(),
+                        files = return_usr.Files.ToList(),
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                Response.StatusCode = 500;
+
+                if (!Globals.Config.IsDebug)
+                    return Json(new
+                    {
+                        success = false,
+                        error = "500 Internal Server Error",
+                        code = 500
+                    });
+
+                return Json(new
+                {
+                    success = false,
+                    error = "500 Internal Server Error",
+                    code = 500,
+                    exception = e.ToString(),
+                });
+            }
+        }
+
         [Route("create-user")]
         [AcceptVerbs("POST")]
         public async Task<IActionResult> CreateUser([FromBody] NewUserModel details)
