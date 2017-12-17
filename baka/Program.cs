@@ -14,7 +14,7 @@ namespace baka
     {
         public static void Main(string[] args)
         {
-            Globals.Initliaze();
+            Globals.Initialize();
             BuildWebHost(args).Run();
         }
 
