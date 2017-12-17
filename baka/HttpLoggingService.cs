@@ -10,7 +10,7 @@ namespace baka
 {
     public class HttpLoggingService
     {
-        //This class is a rly bad class I know, but it's custom and yeah.
+        //This class is a really bad class I know, but it's custom and yeah.
         public HttpLoggingService()
         {
 
