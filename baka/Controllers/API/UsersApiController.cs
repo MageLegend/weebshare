@@ -513,5 +513,16 @@ namespace baka.Controllers
                 });
             }
         }
+
+        [Route("/ajit-pai")]
+        [Route("/pai")]
+        [Route("/net-neutrality")]
+        public IActionResult NN()
+        {
+            return Json(new
+            {
+                hecc = "ajit pai pls"
+            });
+        }
     }
 }
