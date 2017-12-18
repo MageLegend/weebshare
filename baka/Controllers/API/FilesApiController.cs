@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace baka.Controllers
 {
-    [Route("/api")]
+    [Route("/api/objects")]
     public class FilesApiController : BakaController
     {
         [Route("upload")]
@@ -111,6 +111,30 @@ namespace baka.Controllers
                 success = true,
                 code = 200
             });
+        }
+
+        [Route("shorten")]
+        public async Task<IActionResult> ShortenLink()
+        {
+
+        }
+
+        [Route("@all")]
+        public async Task<IActionResult> ListEveryone()
+        {
+
+        }
+        
+        [Route("@me")]
+        public async Task<IActionResult> ListCurrentUser()
+        {
+
+        }
+        
+        [Route("{id}")]
+        public async Task<IActionResult> ListById(int id)
+        {
+
         }
     }
 }
