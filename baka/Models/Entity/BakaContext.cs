@@ -92,7 +92,7 @@ namespace baka.Models.Entity
 
         [JsonProperty("uploader_id")]
         [NotMapped]
-        public int UploaderId { get { return Uploader.Id; } }
+        public int BakaUploaderId { get { return Uploader.Id; } }
 
         [JsonIgnore]
         public DateTime Timestamp { get; set; }
@@ -138,7 +138,7 @@ namespace baka.Models.Entity
 
         [JsonProperty("uploader_id")]
         [NotMapped]
-        public int UploaderId { get { return Uploader.Id; } }
+        public int BakaUploaderId { get { return Uploader.Id; } }
 
         [JsonIgnore]
         public DateTime Timestamp { get; set; }
