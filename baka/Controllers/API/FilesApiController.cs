@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace baka.Controllers
 {
@@ -86,14 +87,14 @@ namespace baka.Controllers
 
             using (var context = new BakaContext())
             {
-                model.User.Files.Add(db_file);
+                var user = await context.Users.FirstOrDefaultAsync(x => x.Id == model.User.Id);
+               
+                user.Files.Add(db_file);
 
-                await context.Files.AddAsync(db_file);
-
-                if (model.User.InitialIp == null)
+                if (user.InitialIp == null)
                 {
                     string ip = GetIp();
-                    model.User.InitialIp = ip;
+                    user.InitialIp = ip;
                 }
 
                 await context.SaveChangesAsync();
