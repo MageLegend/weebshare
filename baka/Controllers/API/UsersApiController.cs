@@ -12,24 +12,99 @@ namespace baka.Controllers
     [Route("/api/users")]
     public class UsersApiController : BakaController
     {
-        [Route("from-email/{email}")]
-        public async Task<IActionResult> GetUserFromEmail(string email)
+        [Route("list-users")]
+        [AcceptVerbs("GET")]
+        public async Task<IActionResult> GetUsersList()
         {
-            AuthModel model = Authorize("su_full");
-            if (!model.Authorized)
+            try
             {
-                Response.StatusCode = 401;
+                AuthModel model = Authorize("su_full");
+                if (!model.Authorized)
+                {
+                    Response.StatusCode = 401;
+
+                    return Json(new
+                    {
+                        success = false,
+                        error = model.Reason,
+                        code = 401
+                    });
+                }
+
+                using (var context = new BakaContext())
+                {
+                    var users = await context.Users.ToListAsync();
+
+                    var usr_list = new List<dynamic>();
+
+                    foreach (var usr in users)
+                    {
+                        var temp_usr = new
+                        {
+                            id = usr.Id,
+                            username = usr.Username,
+                            name = usr.Name,
+                            email = usr.Email,
+                            upload_limit = usr.UploadLimitMB,
+                            initial_ip = usr.InitialIp,
+                            timestamp = usr.Timestamp.ToFileTimeUtc().ToString(),
+                            token = usr.Token,
+                            deleted = usr.Deleted,
+                            disabled = usr.Disabled,
+                            account_type = usr.AccountType,
+                            links = usr.Links.ToList(),
+                            files = usr.Files.ToList(),
+                        };
+
+                        usr_list.Add(temp_usr);
+                    }
+
+                    return Json(new
+                    {
+                        users = usr_list
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                Response.StatusCode = 500;
+
+                if (!Globals.Config.IsDebug)
+                    return Json(new
+                    {
+                        success = false,
+                        error = "500 Internal Server Error",
+                        code = 500
+                    });
 
                 return Json(new
                 {
                     success = false,
-                    error = model.Reason,
-                    code = 401
+                    error = "500 Internal Server Error",
+                    code = 500,
+                    exception = e.ToString(),
                 });
             }
+        }
 
+        [Route("from-email/{email}")]
+        public async Task<IActionResult> GetUserFromEmail(string email)
+        {
             try
             {
+                AuthModel model = Authorize("su_full");
+                if (!model.Authorized)
+                {
+                    Response.StatusCode = 401;
+
+                    return Json(new
+                    {
+                        success = false,
+                        error = model.Reason,
+                        code = 401
+                    });
+                }
+
                 using (var context = new BakaContext())
                 {
                     BakaUser return_usr = await context.Users.Include(x => x.Links).Include(x => x.Files).FirstOrDefaultAsync(x => x.Email == email);
