@@ -33,7 +33,7 @@ namespace baka.Controllers
 
                 using (var context = new BakaContext())
                 {
-                    var users = await context.Users.ToListAsync();
+                    var users = await context.Users.Include(x => x.Files).Include(x => x.Links).ToListAsync();
 
                     var usr_list = new List<dynamic>();
 
